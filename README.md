@@ -14,6 +14,6 @@ insert a string containing the ticker name of the stock of interest into the fet
 
 Or use this command line from terminal:
 
-python your_script.py --ticker [Name of Stock Ticker] --period [Desired Period for Data Collection]
+python OLS_Model.py --ticker [Name of Stock Ticker] --period [Desired Period for Data Collection]
 
 Default: SOFI, max
