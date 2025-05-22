@@ -51,7 +51,7 @@ def create_features(hist_data) :
 
     return hist_data
 
-def build_model(hist_data, test_size = .2) :
+def build_model(hist_data, test_size = .1) :
     
     # Define Dependent and Independent Variables
     features  = ['MA10', 'Price_Change', 'Vol_Change', 'Volatility']
@@ -63,15 +63,15 @@ def build_model(hist_data, test_size = .2) :
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = test_size, 
                                                         shuffle = False)
     
-    X_train = sm.add_constant(X_train)
-    X_test = sm.add_constant(X_test)
+    train = sm.add_constant(X_train)
+    test = sm.add_constant(X_test)
 
     
-    model = sm.OLS(y_train, X_train).fit()
+    model = sm.OLS(y_train, train).fit()
     
     # Predictions
-    y_pred_train = model.predict(X_train)
-    y_pred_test = model.predict(X_test)
+    y_pred_train = model.predict(train)
+    y_pred_test = model.predict(test)
 
     #Evaluations
     train_rmse = np.sqrt(mean_squared_error(y_train, y_pred_train))
@@ -138,10 +138,11 @@ def main(ticker, period) :
     print("\nFeatures created. Preview:")
     print(featured_data[['Close', 'MA10', 'Closing_Price']].head())
 
-    model, X_text, y_test, y_pred = build_model(featured_data)
+    model, X_test, y_test, y_pred = build_model(featured_data)
 
     #Print Model Summary
     print(model.summary())
+
 
     #Create Plot
     visualize_results(y_test, y_pred)
