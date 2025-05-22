@@ -90,7 +90,7 @@ def build_model(hist_data, test_size = .1) :
 
 # Visualize Results: Actual vs Predicted Price
 
-def visualize_results(y_test, y_pred) :
+def visualize_results(ticker, y_test, y_pred) :
 
     plt.figure(figsize = (12,6))
 
@@ -100,7 +100,7 @@ def visualize_results(y_test, y_pred) :
     #Plot Predicted Values
     plt.plot(y_test.index, y_pred, label = 'Predicted Price', color = 'red', linestyle = '--')
 
-    plt.title('SoFi Stock Price : Actual vs Predicted')
+    plt.title(f'{ticker} Stock Price : Actual vs Predicted')
     plt.xlabel('Date')
     plt.ylabel('Price ($)')
     plt.legend()
@@ -108,6 +108,7 @@ def visualize_results(y_test, y_pred) :
 
     plt.tight_layout()
     plt.show()
+    plt.savefig('OLS_model_vs_Actual.png')
 
 def predict_price(model, latest_data) :
 
@@ -138,6 +139,7 @@ def main(ticker, period) :
     print("\nFeatures created. Preview:")
     print(featured_data[['Close', 'MA10', 'Closing_Price']].head())
 
+    #X_test is not accessed but is a necessary part of building the model. 
     model, X_test, y_test, y_pred = build_model(featured_data)
 
     #Print Model Summary
@@ -145,7 +147,7 @@ def main(ticker, period) :
 
 
     #Create Plot
-    visualize_results(y_test, y_pred)
+    visualize_results(ticker, y_test, y_pred)
 
     # Predict Price
     latest_data = featured_data[['Close', 'MA10', 'Price_Change', 'Vol_Change', 'Volatility']].iloc[-1:]
