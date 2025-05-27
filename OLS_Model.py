@@ -107,8 +107,9 @@ def visualize_results(ticker, y_test, y_pred) :
     plt.grid(True, alpha = .3)
 
     plt.tight_layout()
-    plt.show()
     plt.savefig('OLS_model_vs_Actual.png')
+    plt.show()
+    
 
 def predict_price(model, latest_data) :
 
